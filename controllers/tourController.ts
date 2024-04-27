@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction  } from 'express';
 const AppError = require('./../utils/appError');
 const Tour = require('./../models/tourModel')
+const Destination = require('./../models/destinationModel')
 
 exports.getAllTours = async (req: Request, res: Response) => {
   let tours = await Tour.find();
@@ -29,11 +30,14 @@ exports.createTour = async (req: Request, res: Response) => {
   }
   res.status(201).json({
     status: 'success',
-    data: {
-      tour: newTour
-    }
+    tour: newTour
   });
   console.log("POST a new tour")
+}
+
+exports.renderNewTourForm = async (req: Request, res: Response) => {
+  const destination = await Destination.find()
+  res.status(201).render("tours/newTour", {destination, title: "Neue Reise"});
 }
 
 exports.getTour = async (req: Request, res: Response, next: NextFunction) => {
@@ -142,4 +146,19 @@ exports.deleteTour = async (req: Request, res: Response, next: NextFunction) => 
   });
 
   console.log("Delete a tour using mongodbID successful")
+}
+
+exports.addTour = async (req: Request, res: Response) => {
+  const newTour = await Tour.create(req.body);
+  if (!newTour) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Fail to create a new tour'
+    });
+  }
+  res.status(201).json({
+    status: 'success',
+    tour: newTour
+  });
+  console.log("POST a new tour")
 }

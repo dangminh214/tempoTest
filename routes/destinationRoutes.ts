@@ -4,7 +4,14 @@ const destinationController = require('../controllers/destinationController');
 
 const router = express.Router();
 
-router.get('/', destinationController.getAllDestination);
-router.get('/:name', destinationController.getDestinationUsingName);
+router
+  .route('/')
+  .get(destinationController.getAllDestination);
+router
+  .route('/newDestination')
+  .get(destinationController.renderCreateDestination);
+router
+  .route('/:name')
+  .get(destinationController.getDestinationUsingName);
 
 module.exports = router;

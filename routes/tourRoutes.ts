@@ -12,7 +12,8 @@ router
 //Create a new tour - doesnt work yet
 router
   .route('/newTour')
-  .post(tourController.createTour)
+  .get(tourController.renderNewTourForm)
+  //.post(tourController.createTour)
 
 //ALl tours
 router

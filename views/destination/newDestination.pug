@@ -1,0 +1,16 @@
+extends ./../template/base
+
+block content 
+  main.main
+    .card-container 
+      h1 Ein neues Reiseziel hinzufügen
+      h3 Name
+      textarea.inputNewDestinationName(rows="2" cols="50")
+
+      h3 Beschreibung
+      textarea.inputDestinationDescription(rows="4" cols="50")
+
+      h3 Fotos
+      input(type="file" name="tourImages" accept="image/*")
+      p 
+        a.button.submitCreateNewDestination(type="button", href = "/tours") Reiseziel Hinzufügen

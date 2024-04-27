@@ -3,7 +3,6 @@ extends ./../template/base
 block content 
   main.main
     .card-container 
-
       h1 Alle Reisen
       each tour in tours
         a.linkTour(href = `/tours/${tour.name}`) #{tour.name}

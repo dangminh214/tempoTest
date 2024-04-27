@@ -3,19 +3,12 @@ extends ./../template/base
 block content 
   main.main
     .card-container 
-
-      h1 Alle Reisen
+      h1 Alle Reisenziele
       each destination in destinations
-        a.linkTour(href = `img/destination/${destination.name}`) #{destination.name}
-        p.tourDescription 
+        a.linkDestination(href = `/destination/${destination.name}`) #{destination.name}
+        p.destinationDescription 
           p Beschreibung: 
             span= destination.description  
-        p.tourImage 
+        p.destinationImage 
           p.imageCover Fotos: 
             span= destination.imageCover          
-        p.tourDestination 
-          p Reiseziele: 
-            span= destination.destination
-        p.tourID 
-          p id: 
-            span= destination._id        

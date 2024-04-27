@@ -24,7 +24,6 @@ exports.getDestinationUsingName = async (req: Request, res: Response, next: Next
   const { name } = req.params;
   const destination = await Destination.findOne({ name: name});   
   //Oder: const tour = await Tour.findOne({ name: req.params.name});   
-
   if (!destination) {
     return res.status(404).json({
       status: 'fail',
@@ -40,10 +39,18 @@ exports.getDestinationUsingName = async (req: Request, res: Response, next: Next
         title: destination.name,
         name: destination.name,
         description: destination.description,
-        //destination: destination.destination, 
         imageCover: destination.imageCover    
       }
     );
+  console.log("GET a destination using name");
+} 
+
+exports.renderCreateDestination = async (req: Request, res: Response, next: NextFunction) => {
+  //const destination = await Destination.findOne({ name: name});   
+  //Oder: const tour = await Tour.findOne({ name: req.params.name});   
+
+  res.status(200).render('destination/newDestination', {title: "Neues Reiseziel"});
 
   console.log("GET a destination using name");
 } 
+

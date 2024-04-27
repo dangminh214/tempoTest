@@ -1,0 +1,21 @@
+extends ./../template/base
+
+block content 
+  main.main
+    .card-container 
+      h1 Eine neue Reise hinzufügen
+      h3 Name
+      textarea.inputNewTourName(rows="2" cols="50")
+
+      h3 Beschreibung
+      textarea.inputNewTourDescription(rows="4" cols="50")
+
+      h3 Reisenziele
+      select.inputNewTourDestination
+        each singleDestination in destination
+          option(value=destination) #{singleDestination.name}
+
+      h3 Fotos
+      input(type="file" name="tourImages" accept="image/*")
+      p 
+        a.button.submitCreateNewTour(type="button", href = "/tours" onClick = "addTour()") Hinzufügen
