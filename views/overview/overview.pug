@@ -1,0 +1,16 @@
+extends ./../template/base
+
+block content 
+  main.main
+    .card-container 
+
+      h1 Übersicht
+      button
+        a(href=`/tours`, style="text-decoration: none; color: inherit;") Alle Reisen
+      p
+      button
+        a(href=`/destination`, style="text-decoration: none; color: inherit;") Alle Reiseziele 
+
+      h1 Neue Reise hinzufügen 
+      button
+        a(href=`/tours/newTour`, style="text-decoration: none; color: inherit;") Neue Reise hinzufügen

@@ -1,0 +1,21 @@
+extends ./../template/base
+
+block content 
+  main.main
+    .card-container 
+
+      h1 Alle Reisen
+      each destination in destinations
+        a.linkTour(href = `img/destination/${destination.name}`) #{destination.name}
+        p.tourDescription 
+          p Beschreibung: 
+            span= destination.description  
+        p.tourImage 
+          p.imageCover Fotos: 
+            span= destination.imageCover          
+        p.tourDestination 
+          p Reiseziele: 
+            span= destination.destination
+        p.tourID 
+          p id: 
+            span= destination._id        

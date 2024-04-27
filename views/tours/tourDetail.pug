@@ -1,0 +1,17 @@
+extends ./../template/base
+
+block content
+  //- Use a named block to define the content
+  block tourDetails
+    p.ptourImageCover
+      img.tourImageCover(src=`/img/tours/${name}/${name}.jpg`, alt=`${name}.jpg`)
+    p.tourName 
+      p Name: 
+        span= name
+    p.tourDescription 
+      p Beschreibung: 
+        span= description
+    p.tourDestination 
+      p Reiseziele:
+        span= destination
+  
