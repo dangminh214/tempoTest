@@ -13,7 +13,7 @@ router
 router
   .route('/newTour')
   .get(tourController.renderNewTourForm)
-  //.post(tourController.createTour)
+  .post(tourController.createTour)
 
 //ALl tours
 router

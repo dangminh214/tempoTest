@@ -11,7 +11,14 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.json());      //convert request in json format to normal format
 //app.use(express.urlencoded({extended: true}))     //dont need yet
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.ts')) {
+      res.setHeader('Content-Type', 'text/javascript');
+    }
+  }
+}));
+
 
 app.use('/', viewRouter);
 app.use('/destination', destinationRouter)

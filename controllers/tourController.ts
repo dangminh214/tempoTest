@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction  } from 'express';
 const AppError = require('./../utils/appError');
 const Tour = require('./../models/tourModel')
-const Destination = require('./../models/destinationModel')
+//Destination = require('./../models/destinationModel')
+import Destination from '../models/destinationModel';
 
 exports.getAllTours = async (req: Request, res: Response) => {
   let tours = await Tour.find();
