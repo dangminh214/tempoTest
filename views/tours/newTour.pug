@@ -15,6 +15,11 @@ block content
         each singleDestination in destination
           option(value=destination) #{singleDestination.name}
 
+      h3 Keine Reisenziele ? 
+      p 
+        a.button.submitCreateNewTour(type="button", href = "/destination/newDestination") Neues Reiseziel hinzufügen
+
+
       h3 Fotos
       input(type="file" name="tourImages" accept="image/*")
       p 

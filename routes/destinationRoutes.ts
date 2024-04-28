@@ -11,7 +11,7 @@ router
   .route('/newDestination')
   .get(destinationController.renderCreateDestination);
 router
-  .route('/:name')
+  .route('/detail/:name')
   .get(destinationController.getDestinationUsingName);
 
 module.exports = router;
