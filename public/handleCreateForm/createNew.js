@@ -1,5 +1,5 @@
 //import destinationModel from './models/destinationModel'
-async function submitForm() {
+async function submitNewTourForm() {
   const nameInput = document.querySelector('.inputNewTourName');
   const name = nameInput ? nameInput.value : '';
   console.log(nameInput);
@@ -10,16 +10,8 @@ async function submitForm() {
   const destinationInput = document.querySelector('.inputNewTourDestination');
   const destinationName = destinationInput ? destinationInput.value : '';
 
-  console.log("totest: ", name, description, destinationName)
+  console.log("new Tour: ", name, description, destinationName)
 
-  //const destination = await destinationModel.find(Number(destinationId));
-
-  /* const response = await fetch(`/destination/${destinationId}`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch destination');
-  }
-  const selectedDestination = await response.json();
-  console.log('Selected destination:', selectedDestination); */
   const tourData = { name, description, destination: destinationName}
   const createTourResponse = fetch('/tours/newTour', {
     method: 'POST',
@@ -35,6 +27,35 @@ async function submitForm() {
       window.location.href = '/tours';
     } else {
       console.error('Failed to create tour');
+    }
+  })
+  .catch(error => console.error('Error submitting form:', error));
+}
+
+async function submitNewDestinationForm() {
+  const nameInput = document.querySelector('.inputNewDestinationName');
+  const name = nameInput ? nameInput.value : '';
+  console.log(nameInput);
+
+  const descriptionInput = document.querySelector('.inputDestinationDescription');
+  const description = descriptionInput ? descriptionInput.value : '';
+
+  console.log("new Destination: ", name, description)
+
+  const destionationData = { name, description}
+  const createDestinationResponse = fetch('/destination/newDestination', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(destionationData),
+  })
+  .then(response => {
+    if (response.ok) {
+      console.log('Destination created successfully');
+      window.location.href = '/destination';
+    } else {
+      console.error('Failed to create new Destination');
     }
   })
   .catch(error => console.error('Error submitting form:', error));

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction  } from 'express';
 const AppError = require('./../utils/appError');
-const Destination = require('./../models/destinationModel')
+//const Destination = require('./../models/destinationModel')
+import Destination from './../models/destinationModel'
 
 exports.getAllDestination = async (req: Request, res: Response) => {
   let destinations = await Destination.find();
@@ -45,12 +46,23 @@ exports.getDestinationUsingName = async (req: Request, res: Response, next: Next
   console.log("GET a destination using name");
 } 
 
+exports.createDestination = async (req: Request, res: Response) => {
+  const newDestination = await Destination.create(req.body);
+  if (!newDestination) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Fail to create a new Destination'
+    });
+  }
+  res.status(201).json({
+    status: 'success',
+    destination: newDestination
+  });
+  console.log("POST a new Destination")
+}
+
 exports.renderCreateDestination = async (req: Request, res: Response, next: NextFunction) => {
-  //const destination = await Destination.findOne({ name: name});   
-  //Oder: const tour = await Tour.findOne({ name: req.params.name});   
-
   res.status(200).render('destination/newDestination', {title: "Neues Reiseziel"});
-
-  console.log("GET a destination using name");
+  console.log("render a new Destination Form");
 } 
 

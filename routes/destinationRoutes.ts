@@ -9,7 +9,8 @@ router
   .get(destinationController.getAllDestination);
 router
   .route('/newDestination')
-  .get(destinationController.renderCreateDestination);
+  .get(destinationController.renderCreateDestination)
+  .post(destinationController.createDestination);
 router
   .route('/detail/:name')
   .get(destinationController.getDestinationUsingName);
