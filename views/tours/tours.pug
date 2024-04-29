@@ -14,7 +14,7 @@ block content
             span= tour.imageCover          
         p.tourDestination 
           p Reiseziele: 
-            span= tour.destination
+            a(href=`/destination/detail/${tour.destination}`)= tour.destination
         p.tourID 
           p id: 
             span= tour._id        
