@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const destinationSchema = require('./destinationModel')
+const { Schema } = mongoose;
 
 const tourSchema = new mongoose.Schema({
   name: {
@@ -10,10 +11,15 @@ const tourSchema = new mongoose.Schema({
 
   destination: {
     type: String, 
-    required: [true, 'A tour must have atleast one destination'],
-  }, 
+    required: [true, 'A tour must have at least one destination'],
+  },  
 
   //testDestinaiton:  [destinationSchema],
+  /* destination: {
+    type: Schema.Types.ObjectId,
+    ref: 'Destination',
+    required: [true, 'A tour must have at least one destination']
+  }, */
 
   description: {
     type: String, 
