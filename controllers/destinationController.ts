@@ -13,7 +13,13 @@ exports.getAllDestination = async (req: Request, res: Response) => {
     });
   }
  
-  res.status(200).render('destination/destination', {
+  /* res.status(200).render('destination/destination', {
+      title: 'Alle Reiseziele',    
+      destinations
+    }
+  ); */
+
+  res.status(200).json({
       title: 'Alle Reiseziele',    
       destinations
     }
@@ -32,17 +38,12 @@ exports.getDestinationUsingName = async (req: Request, res: Response, next: Next
     });
   }
 
-  res.status(200).render('destination/destinationDetail', {
-      status: 'success',
-      data: {
-        destination
-      },
-        title: destination.name,
-        name: destination.name,
-        description: destination.description,
-        imageCover: destination.imageCover    
-      }
-    );
+  res.status(200).json({
+    status: 'success',
+    data: {
+      destination
+    }
+  }); 
   console.log("GET a destination using name");
 } 
 
@@ -61,8 +62,8 @@ exports.createDestination = async (req: Request, res: Response) => {
   console.log("POST a new Destination")
 }
 
-exports.renderCreateDestination = async (req: Request, res: Response, next: NextFunction) => {
+/* exports.renderCreateDestination = async (req: Request, res: Response, next: NextFunction) => {
   res.status(200).render('destination/newDestination', {title: "Neues Reiseziel"});
   console.log("render a new Destination Form");
 } 
-
+ */

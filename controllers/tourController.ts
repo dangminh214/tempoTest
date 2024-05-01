@@ -14,7 +14,14 @@ exports.getAllTours = async (req: Request, res: Response) => {
     });
   }
  
-  res.status(200).render('tours/tours', {
+  /* res.status(200).render('tours/tours', {
+      title: 'Alle Reisen',    
+      tours
+    }
+  ); */
+
+    res.status(200).json({
+      status: 'success',
       title: 'Alle Reisen',    
       tours
     }
@@ -36,10 +43,10 @@ exports.createTour = async (req: Request, res: Response) => {
   console.log("POST a new tour")
 }
 
-exports.renderNewTourForm = async (req: Request, res: Response) => {
+/* exports.renderNewTourForm = async (req: Request, res: Response) => {
   const destination = await Destination.find()
   res.status(201).render("tours/newTour", {destination, title: "Neue Reise"});
-}
+} */
 
 exports.getTour = async (req: Request, res: Response, next: NextFunction) => {
   const tour = await Tour.findById(req.params.id);
@@ -62,10 +69,24 @@ exports.getTour = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 exports.getTourUsingDestination = async (req: Request, res: Response, next: NextFunction) => {
-  const { destination } = req.params;
-  const tour = await Tour.findOne({ destination: destination});
+  const  destinationName:string = req.params.destination;
+  const destination = await Destination.findOne({ name: destinationName}); 
+  const destinationId = destination?._id;
+  console.log("destinationId",destinationId)
+  
+  if (!destination) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Destination not found'
+    });
+  }
+  //const tour = await Tour.find({ destination: destination});
+  //const tours = await Tour.find({ destinations: { $in: [destination] } });  //test
+  const tours = await Destination.find({ destinations: { $in: [destinationId] }});
 
-  if (!tour) {
+  console.log(tours)
+
+  if (!tours) {
     return res.status(404).json({
       status: 'fail',
       message: 'No tour found with that destination'
@@ -75,7 +96,7 @@ exports.getTourUsingDestination = async (req: Request, res: Response, next: Next
   res.status(200).json({
     status: 'success',
     data: {
-      tour
+      tours
     }
   });
 
@@ -84,8 +105,7 @@ exports.getTourUsingDestination = async (req: Request, res: Response, next: Next
 
 exports.getTourUsingName = async (req: Request, res: Response, next: NextFunction) => {
   const { name } = req.params;
-  const tour = await Tour.findOne({ name: name});   
-  //Oder: const tour = await Tour.findOne({ name: req.params.name});   
+  const tour = await Tour.findOne({ name: name});      
 
   if (!tour) {
     return res.status(404).json({
@@ -93,19 +113,13 @@ exports.getTourUsingName = async (req: Request, res: Response, next: NextFunctio
       message: 'No tour found with that name'
     });
   }
-
-  res.status(200).render('tours/tourDetail', {
-      status: 'success',
+  res.status(200).json({
+    status: 'success',
       data: {
         tour
       },
-        title: tour.name,
-        name: tour.name,
-        description: tour.description,
-        destination: tour.destination, 
-        imageCover: `${tour.name}.jpg`    
-      }
-    );
+    }
+  );
 
   console.log("GET a tour using name");
 }

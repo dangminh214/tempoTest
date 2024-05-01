@@ -8,8 +8,9 @@ const destinationSchema = new mongoose.Schema({
   },
 
   tours: {
-    type: String, 
-  }, 
+    type: mongoose.Schema.ObjectId,
+    ref: 'tour',
+  },
 
   description: {
     type: String, 

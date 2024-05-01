@@ -1,6 +1,5 @@
 import express from 'express';
 const tourController = require('../controllers/tourController');
-
 const router = express.Router();
 
 //Each Tour has a separated name
@@ -12,7 +11,7 @@ router
 //Create a new tour - doesnt work yet
 router
   .route('/newTour')
-  .get(tourController.renderNewTourForm)
+  //.get(tourController.renderNewTourForm)
   .post(tourController.createTour)
 
 //ALl tours

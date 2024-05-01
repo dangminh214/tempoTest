@@ -2,7 +2,7 @@ import { Request, Response, NextFunction  } from 'express';
 const AppError = require('./../utils/appError');
 const Tour = require('./../models/tourModel')
 
-exports.getOverview = async (req: Request, res: Response) => {    //test
+exports.getOverview = async (req: Request, res: Response) => {   
   let tours = await Tour.find();
 
   if (!tours) {
@@ -11,9 +11,14 @@ exports.getOverview = async (req: Request, res: Response) => {    //test
       message: 'Error to get all tours, check the EndPoint'
     });
   }
- 
-  res.status(200).render('overview/overview', {
-      title: 'Overview',    
+    res.status(200).json({
+      title: 'Overview',
+      tours    
     }
   );
+ 
+  /* res.status(200).render('overview/overview', {
+      title: 'Overview',    
+    }
+  ); */
 }

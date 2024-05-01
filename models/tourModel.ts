@@ -9,17 +9,17 @@ const tourSchema = new mongoose.Schema({
     unique: true
   },
 
-  destination: {
+  /* destination: {
     type: String, 
     required: [true, 'A tour must have at least one destination'],
-  },  
+  },  */ 
 
-  //testDestinaiton:  [destinationSchema],
-  /* destination: {
-    type: Schema.Types.ObjectId,
-    ref: 'Destination',
-    required: [true, 'A tour must have at least one destination']
-  }, */
+  //test relationship
+  destinations: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'destination',
+    required: true
+  }],
 
   description: {
     type: String, 
@@ -33,4 +33,4 @@ const tourSchema = new mongoose.Schema({
 });
 
 const tourModel = new mongoose.model('tour', tourSchema);
-module.exports = tourModel;
+export default tourModel;
