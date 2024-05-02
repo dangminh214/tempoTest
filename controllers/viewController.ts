@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction  } from 'express';
-const AppError = require('./../utils/appError');
-const Tour = require('./../models/tourModel')
+import {tourModel} from '../models/tourModel';
+const catchAsync = require('./../utils/catchAsync')
 
-exports.getOverview = async (req: Request, res: Response) => {   
-  let tours = await Tour.find();
+exports.getOverview = catchAsync(async (req: Request, res: Response) => {   
+  let tours = await tourModel.find();
 
   if (!tours) {
     return res.status(404).json({
@@ -16,9 +16,4 @@ exports.getOverview = async (req: Request, res: Response) => {
       tours    
     }
   );
- 
-  /* res.status(200).render('overview/overview', {
-      title: 'Overview',    
-    }
-  ); */
-}
+})

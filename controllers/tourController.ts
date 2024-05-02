@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction  } from 'express';
 const AppError = require('./../utils/appError');
-const Tour = require('./../models/tourModel')
-import Destination from '../models/destinationModel';
-//Destination = require('./../models/destinationModel')
+const catchAsync = require('./../utils/catchAsync');
+import {tourModel} from '../models/tourModel';
+import {destinationModel} from '../models/destinationModel';
 
-exports.getAllTours = async (req: Request, res: Response) => {
-  let tours = await Tour.find();
+
+exports.getAllTours = catchAsync(async (req: Request, res: Response) => {
+  let tours = await tourModel.find();
 
   if (!tours) {
     return res.status(404).json({
@@ -13,12 +14,6 @@ exports.getAllTours = async (req: Request, res: Response) => {
       message: 'Error to get all tours, check the EndPoint'
     });
   }
- 
-  /* res.status(200).render('tours/tours', {
-      title: 'Alle Reisen',    
-      tours
-    }
-  ); */
 
     res.status(200).json({
       status: 'success',
@@ -26,10 +21,10 @@ exports.getAllTours = async (req: Request, res: Response) => {
       tours
     }
   );
-}
+})
 
-exports.createTour = async (req: Request, res: Response) => {
-  const newTour = await Tour.create(req.body);
+exports.createTour = catchAsync(async (req: Request, res: Response) => {
+  const newTour = await tourModel.create(req.body);
   if (!newTour) {
     return res.status(404).json({
       status: 'fail',
@@ -41,15 +36,10 @@ exports.createTour = async (req: Request, res: Response) => {
     tour: newTour
   });
   console.log("POST a new tour")
-}
+})
 
-/* exports.renderNewTourForm = async (req: Request, res: Response) => {
-  const destination = await Destination.find()
-  res.status(201).render("tours/newTour", {destination, title: "Neue Reise"});
-} */
-
-exports.getTour = async (req: Request, res: Response, next: NextFunction) => {
-  const tour = await Tour.findById(req.params.id);
+exports.getTour = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const tour = await tourModel.findById(req.params.id);
   
   if (!tour) {
     return res.status(404).json({
@@ -66,13 +56,14 @@ exports.getTour = async (req: Request, res: Response, next: NextFunction) => {
   });
 
   console.log("GET a tour using mongodbid")
-};
+});
 
-exports.getTourUsingDestination = async (req: Request, res: Response, next: NextFunction) => {
+exports.getTourUsingDestination = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const  destinationName:string = req.params.destination;
-  const destination = await Destination.findOne({ name: destinationName}); 
-  const destinationId = destination?._id;
+  const destination = await destinationModel.findOne({ name: destinationName}); 
+  const destinationId = destination?._id.toString();
   console.log("destinationId",destinationId)
+  console.log("await tourModel.find():", await tourModel.find());
   
   if (!destination) {
     return res.status(404).json({
@@ -80,11 +71,11 @@ exports.getTourUsingDestination = async (req: Request, res: Response, next: Next
       message: 'Destination not found'
     });
   }
-  //const tour = await Tour.find({ destination: destination});
-  //const tours = await Tour.find({ destinations: { $in: [destination] } });  //test
-  const tours = await Destination.find({ destinations: { $in: [destinationId] }});
-
-  console.log(tours)
+  //const tours = await tourModel.find({ destinations: destinationId}); //{ $in: [destinationId] }
+  const tours = await tourModel
+    .find({ destinations: { $in: [destinationId] } })
+    .populate('destinations');
+  console.log("found tours:", tours)
 
   if (!tours) {
     return res.status(404).json({
@@ -101,11 +92,11 @@ exports.getTourUsingDestination = async (req: Request, res: Response, next: Next
   });
 
   console.log("GET a tour using destination");
-}
+})
 
-exports.getTourUsingName = async (req: Request, res: Response, next: NextFunction) => {
+exports.getTourUsingName = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { name } = req.params;
-  const tour = await Tour.findOne({ name: name});      
+  const tour = await tourModel.findOne({ name: name});      
 
   if (!tour) {
     return res.status(404).json({
@@ -122,10 +113,10 @@ exports.getTourUsingName = async (req: Request, res: Response, next: NextFunctio
   );
 
   console.log("GET a tour using name");
-}
+})
 
-exports.updateTourByName = async (req: Request, res: Response, next: NextFunction) => {
-  const tour = await Tour.findOneAndUpdate({name: req.params.name}, req.body, {
+exports.updateTourByName = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const tour = await tourModel.findOneAndUpdate({name: req.params.name}, req.body, {
     new: true,
     runValidators: true
   });
@@ -142,11 +133,11 @@ exports.updateTourByName = async (req: Request, res: Response, next: NextFunctio
   });
 
   console.log("PATCH Update a tour")
-};
+});
 
-exports.deleteTour = async (req: Request, res: Response, next: NextFunction) => {
+exports.deleteTour = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   console.log(req.params.id)
-  const tour = await Tour.findByIdAndDelete(req.params.id);
+  const tour = await tourModel.findByIdAndDelete(req.params.id);
 
   if (!tour) {
     return res.status(404).json({
@@ -161,10 +152,10 @@ exports.deleteTour = async (req: Request, res: Response, next: NextFunction) => 
   });
 
   console.log("Delete a tour using mongodbID successful")
-}
+})
 
-exports.addTour = async (req: Request, res: Response) => {
-  const newTour = await Tour.create(req.body);
+exports.addTour = catchAsync(async (req: Request, res: Response) => {
+  const newTour = await tourModel.create(req.body);
   if (!newTour) {
     return res.status(404).json({
       status: 'fail',
@@ -176,4 +167,4 @@ exports.addTour = async (req: Request, res: Response) => {
     tour: newTour
   });
   console.log("POST a new tour")
-}
+})

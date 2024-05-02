@@ -15,9 +15,9 @@ router
   .post(tourController.createTour)
 
 //ALl tours
-router
+/* router
   .route('/tours')
-  .get(tourController.getAllTours)
+  .get(tourController.getAllTours) */
 
 //2 Ways to find a tour
 //Find By name - for user

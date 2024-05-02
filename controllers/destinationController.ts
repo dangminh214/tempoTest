@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction  } from 'express';
 const AppError = require('./../utils/appError');
-//const Destination = require('./../models/destinationModel')
-import Destination from './../models/destinationModel'
+const catchAsync = require('./../utils/catchAsync')
+import   {destinationModel} from './../models/destinationModel'
 
-exports.getAllDestination = async (req: Request, res: Response) => {
-  let destinations = await Destination.find();
+exports.getAllDestination = catchAsync(async (req: Request, res: Response) => {
+  let destinations = await destinationModel.find();
 
   if (!destinations) {
     return res.status(404).json({
@@ -12,12 +12,6 @@ exports.getAllDestination = async (req: Request, res: Response) => {
       message: 'Error to get all tours, check the EndPoint'
     });
   }
- 
-  /* res.status(200).render('destination/destination', {
-      title: 'Alle Reiseziele',    
-      destinations
-    }
-  ); */
 
   res.status(200).json({
       title: 'Alle Reiseziele',    
@@ -25,12 +19,11 @@ exports.getAllDestination = async (req: Request, res: Response) => {
     }
   );
   console.log("GET all destination")
-}
+})
 
-exports.getDestinationUsingName = async (req: Request, res: Response, next: NextFunction) => {
+exports.getDestinationUsingName = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { name } = req.params;
-  const destination = await Destination.findOne({ name: name});   
-  //Oder: const tour = await Tour.findOne({ name: req.params.name});   
+  const destination = await destinationModel.findOne({ name: name});    
   if (!destination) {
     return res.status(404).json({
       status: 'fail',
@@ -45,10 +38,10 @@ exports.getDestinationUsingName = async (req: Request, res: Response, next: Next
     }
   }); 
   console.log("GET a destination using name");
-} 
+}) 
 
-exports.createDestination = async (req: Request, res: Response) => {
-  const newDestination = await Destination.create(req.body);
+exports.createDestination = catchAsync(async (req: Request, res: Response) => {
+  const newDestination = await destinationModel.create(req.body);
   if (!newDestination) {
     return res.status(404).json({
       status: 'fail',
@@ -60,10 +53,4 @@ exports.createDestination = async (req: Request, res: Response) => {
     destination: newDestination
   });
   console.log("POST a new Destination")
-}
-
-/* exports.renderCreateDestination = async (req: Request, res: Response, next: NextFunction) => {
-  res.status(200).render('destination/newDestination', {title: "Neues Reiseziel"});
-  console.log("render a new Destination Form");
-} 
- */
+})

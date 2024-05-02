@@ -33,4 +33,4 @@ const tourSchema = new mongoose.Schema({
 });
 
 const tourModel = new mongoose.model('tour', tourSchema);
-export default tourModel;
+export { tourModel }

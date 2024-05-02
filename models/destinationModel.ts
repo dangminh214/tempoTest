@@ -25,4 +25,4 @@ const destinationSchema = new mongoose.Schema({
 
 const destinationModel = mongoose.model('destination', destinationSchema);
 
-export default destinationModel;
+export { destinationModel }
